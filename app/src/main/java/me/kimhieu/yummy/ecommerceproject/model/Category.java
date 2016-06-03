@@ -4,7 +4,7 @@ package me.kimhieu.yummy.ecommerceproject.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ProductCategory {
+public class Category {
 
     @SerializedName("id")
     @Expose
@@ -35,7 +35,7 @@ public class ProductCategory {
      * No args constructor for use in serialization
      * 
      */
-    public ProductCategory() {
+    public Category() {
     }
 
     /**
@@ -49,7 +49,7 @@ public class ProductCategory {
      * @param display
      * @param slug
      */
-    public ProductCategory(Integer id, String name, String slug, Integer parent, String description, String display, String image, Integer count) {
+    public Category(Integer id, String name, String slug, Integer parent, String description, String display, String image, Integer count) {
         this.id = id;
         this.name = name;
         this.slug = slug;
