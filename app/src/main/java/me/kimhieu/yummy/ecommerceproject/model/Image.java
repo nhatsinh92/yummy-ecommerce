@@ -1,0 +1,184 @@
+
+package me.kimhieu.yummy.ecommerceproject.model;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+public class Image {
+
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("created_at")
+    @Expose
+    private String createdAt;
+    @SerializedName("updated_at")
+    @Expose
+    private String updatedAt;
+    @SerializedName("src")
+    @Expose
+    private String src;
+    @SerializedName("title")
+    @Expose
+    private String title;
+    @SerializedName("alt")
+    @Expose
+    private String alt;
+    @SerializedName("position")
+    @Expose
+    private Integer position;
+
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Image() {
+    }
+
+    /**
+     * 
+     * @param position
+     * @param updatedAt
+     * @param id
+     * @param title
+     * @param alt
+     * @param createdAt
+     * @param src
+     */
+    public Image(Integer id, String createdAt, String updatedAt, String src, String title, String alt, Integer position) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.src = src;
+        this.title = title;
+        this.alt = alt;
+        this.position = position;
+    }
+
+    /**
+     * 
+     * @return
+     *     The id
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * 
+     * @param id
+     *     The id
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * 
+     * @return
+     *     The createdAt
+     */
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    /**
+     * 
+     * @param createdAt
+     *     The created_at
+     */
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    /**
+     * 
+     * @return
+     *     The updatedAt
+     */
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    /**
+     * 
+     * @param updatedAt
+     *     The updated_at
+     */
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    /**
+     * 
+     * @return
+     *     The src
+     */
+    public String getSrc() {
+        return src;
+    }
+
+    /**
+     * 
+     * @param src
+     *     The src
+     */
+    public void setSrc(String src) {
+        this.src = src;
+    }
+
+    /**
+     * 
+     * @return
+     *     The title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * 
+     * @param title
+     *     The title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * 
+     * @return
+     *     The alt
+     */
+    public String getAlt() {
+        return alt;
+    }
+
+    /**
+     * 
+     * @param alt
+     *     The alt
+     */
+    public void setAlt(String alt) {
+        this.alt = alt;
+    }
+
+    /**
+     * 
+     * @return
+     *     The position
+     */
+    public Integer getPosition() {
+        return position;
+    }
+
+    /**
+     * 
+     * @param position
+     *     The position
+     */
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
+
+}
