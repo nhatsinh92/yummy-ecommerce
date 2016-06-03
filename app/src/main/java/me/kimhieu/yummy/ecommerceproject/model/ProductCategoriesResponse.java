@@ -7,24 +7,24 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriesResponse {
+public class ProductCategoriesResponse {
 
     @SerializedName("product_categories")
     @Expose
-    private List<Category> productCategories = new ArrayList<Category>();
+    private List<ProductCategory> productCategories = new ArrayList<ProductCategory>();
 
     /**
      * No args constructor for use in serialization
      * 
      */
-    public CategoriesResponse() {
+    public ProductCategoriesResponse() {
     }
 
     /**
      * 
      * @param productCategories
      */
-    public CategoriesResponse(List<Category> productCategories) {
+    public ProductCategoriesResponse(List<ProductCategory> productCategories) {
         this.productCategories = productCategories;
     }
 
@@ -33,7 +33,7 @@ public class CategoriesResponse {
      * @return
      *     The productCategories
      */
-    public List<Category> getProductCategories() {
+    public List<ProductCategory> getProductCategories() {
         return productCategories;
     }
 
@@ -42,7 +42,7 @@ public class CategoriesResponse {
      * @param productCategories
      *     The product_categories
      */
-    public void setProductCategories(List<Category> productCategories) {
+    public void setProductCategories(List<ProductCategory> productCategories) {
         this.productCategories = productCategories;
     }
 

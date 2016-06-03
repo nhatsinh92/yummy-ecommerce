@@ -1,7 +1,7 @@
 package me.kimhieu.yummy.ecommerceproject.service;
 
-import me.kimhieu.yummy.ecommerceproject.model.CategoriesResponse;
-import me.kimhieu.yummy.ecommerceproject.model.Category;
+import me.kimhieu.yummy.ecommerceproject.model.ProductCategoriesResponse;
+import me.kimhieu.yummy.ecommerceproject.model.ProductCategory;
 import me.kimhieu.yummy.ecommerceproject.model.ProductResponse;
 import me.kimhieu.yummy.ecommerceproject.model.ProductsResponse;
 import retrofit2.Call;
@@ -17,10 +17,10 @@ public interface WooCommerceService {
     Call<ProductsResponse> getListProduct();
 
     @GET("products/categories")
-    Call<CategoriesResponse> getListCategories();
+    Call<ProductCategoriesResponse> getListCategories();
 
     @GET("products/categories/{id}")
-    Call<Category> getCategoryByID(@Path("id") int id);
+    Call<ProductCategory> getCategoryByID(@Path("id") int id);
 
     @GET("products")
     Call<ProductsResponse> getListProductByCategory(
