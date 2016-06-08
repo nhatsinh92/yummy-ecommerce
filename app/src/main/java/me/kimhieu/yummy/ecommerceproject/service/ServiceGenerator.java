@@ -12,7 +12,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
-    public static final String API_BASE_URL = "http://yummy.kimhieu.me/wc-api/v3/";
+    public static final String API_BASE_URL = "http://54.169.197.249/wc-api/v3/";
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
@@ -22,8 +22,8 @@ public class ServiceGenerator {
                     .addConverterFactory(GsonConverterFactory.create());
 
     public static <S> S createService(Class<S> serviceClass) {
-        String consumerKey = "ck_8cb539efb39251f3761187525311bd5fdc7400bb";
-        String consumerSecret = "cs_1487677f3d5663545055b7a5ee4ba56445bfc14b";
+        String consumerKey = "ck_c96d31057e1923d12be3e1ac0e347d6b42f49cc0";
+        String consumerSecret = "cs_d98df386b273b745f6d09467092841712a69f2d1";
 
         String credentials = consumerKey + ":" + consumerSecret;
         final String basic =
