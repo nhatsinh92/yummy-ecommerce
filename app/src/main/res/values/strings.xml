@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">EcommerceProject</string>
+    <string name="dollar_sign">$</string>
+    <string name="explore_string">Explore</string>
+    <string name="onsale_string">On Sale</string>
+    <string name="cart_string">Cart</string>
+    <string name="settings_string">Settings</string>
+    <string name="logout_string">Logout</string>
+    <string name="close_drawer">Navigation View</string>
+    <string name="open_drawer">Navigation View Closed</string>
 </resources>

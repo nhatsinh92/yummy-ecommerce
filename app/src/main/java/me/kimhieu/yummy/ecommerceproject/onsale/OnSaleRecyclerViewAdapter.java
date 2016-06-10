@@ -1,6 +1,7 @@
 package me.kimhieu.yummy.ecommerceproject.onsale;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +60,31 @@ public class OnSaleRecyclerViewAdapter extends RecyclerView.Adapter {
                 .into(((ProductsOnSaleViewHolder)holder).imageViewProductPicture);
         ((ProductsOnSaleViewHolder)holder).textViewProductName.setText(dataSet.get(position).getTitle());
         ((ProductsOnSaleViewHolder)holder).textViewCategoryName.setText(dataSet.get(position).getCategories().get(0));
-        ((ProductsOnSaleViewHolder)holder).textViewPrice.setText("$" + dataSet.get(position).getPrice());
+        ((ProductsOnSaleViewHolder)holder).textViewPrice.setText(R.string.dollar_sign + dataSet.get(position).getPrice());
+
+        // Click on any item in product view. Change to ProductDetailActivity
+        ProductClickListener productClickListener = new ProductClickListener(position);
+        ((ProductsOnSaleViewHolder)holder).imageViewProductPicture.setOnClickListener(productClickListener);
+        ((ProductsOnSaleViewHolder)holder).textViewProductName.setOnClickListener(productClickListener);
+        ((ProductsOnSaleViewHolder)holder).textViewCategoryName.setOnClickListener(productClickListener);
+        ((ProductsOnSaleViewHolder)holder).textViewPrice.setOnClickListener(productClickListener);
+
+    }
+
+    private class ProductClickListener implements View.OnClickListener {
+
+        int position;
+
+        public ProductClickListener(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+//            Intent intent = new Intent(context, ProductDetailActivity.class);
+//            intent.putExtra("PRODUCT_ID_HERE", dataSet.get(position).getId());
+//            context.startActivity(intent);
+        }
     }
 
     @Override
