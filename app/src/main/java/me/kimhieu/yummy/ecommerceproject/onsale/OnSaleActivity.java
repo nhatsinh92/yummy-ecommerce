@@ -11,13 +11,14 @@ import java.util.ArrayList;
 import me.kimhieu.yummy.ecommerceproject.R;
 import me.kimhieu.yummy.ecommerceproject.model.Product;
 import me.kimhieu.yummy.ecommerceproject.model.ProductsResponse;
+import me.kimhieu.yummy.ecommerceproject.navigation_drawer.BaseActivity;
 import me.kimhieu.yummy.ecommerceproject.service.ServiceGenerator;
 import me.kimhieu.yummy.ecommerceproject.service.WooCommerceService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OnSaleActivity extends AppCompatActivity {
+public class OnSaleActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
     private OnSaleRecyclerViewAdapter recyclerViewAdapter;
@@ -28,11 +29,8 @@ public class OnSaleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_sale);
 
-        // Toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(toolbar);
+        // Set toolbar title
         getSupportActionBar().setTitle("On Sale");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Recycler view for product list
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_products_on_sale);
