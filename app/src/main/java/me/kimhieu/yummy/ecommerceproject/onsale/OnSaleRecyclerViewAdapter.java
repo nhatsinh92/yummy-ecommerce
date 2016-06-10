@@ -60,7 +60,8 @@ public class OnSaleRecyclerViewAdapter extends RecyclerView.Adapter {
                 .into(((ProductsOnSaleViewHolder)holder).imageViewProductPicture);
         ((ProductsOnSaleViewHolder)holder).textViewProductName.setText(dataSet.get(position).getTitle());
         ((ProductsOnSaleViewHolder)holder).textViewCategoryName.setText(dataSet.get(position).getCategories().get(0));
-        ((ProductsOnSaleViewHolder)holder).textViewPrice.setText(R.string.dollar_sign + dataSet.get(position).getPrice());
+        String priceInDollar = "$" + dataSet.get(position).getPrice();
+        ((ProductsOnSaleViewHolder)holder).textViewPrice.setText(priceInDollar);
 
         // Click on any item in product view. Change to ProductDetailActivity
         ProductClickListener productClickListener = new ProductClickListener(position);
