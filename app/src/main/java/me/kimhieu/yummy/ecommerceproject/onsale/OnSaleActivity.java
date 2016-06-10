@@ -1,57 +1,62 @@
 package me.kimhieu.yummy.ecommerceproject.onsale;
 
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import me.kimhieu.yummy.ecommerceproject.R;
 import me.kimhieu.yummy.ecommerceproject.model.Product;
+import me.kimhieu.yummy.ecommerceproject.model.ProductsResponse;
+import me.kimhieu.yummy.ecommerceproject.service.ServiceGenerator;
+import me.kimhieu.yummy.ecommerceproject.service.WooCommerceService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class OnSaleActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Product>>{
+public class OnSaleActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    OnSaleRecyclerViewAdapter recyclerViewAdapter;
-    RecyclerView.LayoutManager recyclerViewLayoutManager;
+    private RecyclerView recyclerView;
+    private OnSaleRecyclerViewAdapter recyclerViewAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_sale);
 
+        // Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setTitle("On Sale");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // Recycler view for product list
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_products_on_sale);
         recyclerView.setHasFixedSize(true);
 
-        recyclerViewLayoutManager = new StaggeredGridLayoutManager(2, 1);
-        recyclerView.setLayoutManager(recyclerViewLayoutManager);
+        layoutManager = new StaggeredGridLayoutManager(2, 1);
+        recyclerView.setLayoutManager(layoutManager);
 
         recyclerViewAdapter = new OnSaleRecyclerViewAdapter(this, new ArrayList<Product>());
         recyclerView.setAdapter(recyclerViewAdapter);
-        getSupportLoaderManager().initLoader(1, null, this).forceLoad();
+
+        WooCommerceService service =  ServiceGenerator.createService(WooCommerceService.class);
+        Call<ProductsResponse> productsResponseCall = service.getListProduct();
+
+        productsResponseCall.enqueue(new Callback<ProductsResponse>() {
+            @Override
+            public void onResponse(Call<ProductsResponse> call, Response<ProductsResponse> response) {
+                recyclerViewAdapter.setProductList(response.body().getProducts());
+            }
+
+            @Override
+            public void onFailure(Call<ProductsResponse> call, Throwable t) {
+            }
+        });
     }
 
-    @Override
-    public Loader<List<Product>> onCreateLoader(int id, Bundle args) {
-        return new OnSaleLoader(OnSaleActivity.this);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<Product>> loader, List<Product> data) {
-        recyclerViewAdapter.setProductList(data);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Product>> loader) {
-        recyclerViewAdapter.setProductList(new ArrayList<Product>());
-    }
 }
