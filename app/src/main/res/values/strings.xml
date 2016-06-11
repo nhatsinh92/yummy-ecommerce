@@ -7,4 +7,6 @@
     <string name="logout_string">Logout</string>
     <string name="close_drawer">Navigation View</string>
     <string name="open_drawer">Navigation View Closed</string>
+    <string name="search_title">Search Menu</string>
+    <string name="search_hint">Product Name ...</string>
 </resources>
