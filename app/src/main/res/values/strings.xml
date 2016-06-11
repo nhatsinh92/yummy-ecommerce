@@ -9,4 +9,5 @@
     <string name="open_drawer">Navigation View Closed</string>
     <string name="search_title">Search Menu</string>
     <string name="search_hint">Product Name ...</string>
+    <string name="title_activity_test">test</string>
 </resources>

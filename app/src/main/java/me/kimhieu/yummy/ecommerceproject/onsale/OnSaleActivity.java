@@ -3,13 +3,14 @@ package me.kimhieu.yummy.ecommerceproject.onsale;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import me.kimhieu.yummy.ecommerceproject.model.ProductsResponse;
 import me.kimhieu.yummy.ecommerceproject.navigation_drawer.BaseActivity;
 import me.kimhieu.yummy.ecommerceproject.service.ServiceGenerator;
 import me.kimhieu.yummy.ecommerceproject.service.WooCommerceService;
+import me.kimhieu.yummy.ecommerceproject.utils.Cart;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,6 +31,9 @@ public class OnSaleActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private OnSaleRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager layoutManager;
+
+    private FloatingActionButton fabCart;
+    private TextView textViewCartQuantity;
 
     WooCommerceService service =  ServiceGenerator.createService(WooCommerceService.class);
 
@@ -53,6 +58,16 @@ public class OnSaleActivity extends BaseActivity {
         recyclerView.setAdapter(recyclerViewAdapter);
 
         displayOnSaleProduct();
+
+        fabCart = (FloatingActionButton) findViewById(R.id.fab_cart);
+        textViewCartQuantity = (TextView) findViewById(R.id.text_view_cart_quantity);
+
+        if (Cart.itemList.size() == 0) {
+            textViewCartQuantity.setVisibility(View.INVISIBLE);
+        }else {
+            textViewCartQuantity.setVisibility(View.VISIBLE);
+            textViewCartQuantity.setText(String.valueOf(Cart.itemList.size()));
+        }
     }
 
     @Override
@@ -118,6 +133,7 @@ public class OnSaleActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.search_menu, menu);
+
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);

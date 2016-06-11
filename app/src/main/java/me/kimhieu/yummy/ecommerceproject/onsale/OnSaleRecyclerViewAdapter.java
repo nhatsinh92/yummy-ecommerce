@@ -1,7 +1,9 @@
 package me.kimhieu.yummy.ecommerceproject.onsale;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,8 @@ import java.util.Random;
 
 import me.kimhieu.yummy.ecommerceproject.R;
 import me.kimhieu.yummy.ecommerceproject.model.Product;
+import me.kimhieu.yummy.ecommerceproject.navigation_drawer.BaseActivity;
+import me.kimhieu.yummy.ecommerceproject.utils.Cart;
 
 public class OnSaleRecyclerViewAdapter extends RecyclerView.Adapter {
 
@@ -54,7 +58,7 @@ public class OnSaleRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         Glide.with(this.context)
                 .load(dataSet.get(position).getImages().get(0).getSrc())
                 .into(((ProductsOnSaleViewHolder)holder).imageViewProductPicture);
@@ -69,6 +73,17 @@ public class OnSaleRecyclerViewAdapter extends RecyclerView.Adapter {
         ((ProductsOnSaleViewHolder)holder).textViewProductName.setOnClickListener(productClickListener);
         ((ProductsOnSaleViewHolder)holder).textViewCategoryName.setOnClickListener(productClickListener);
         ((ProductsOnSaleViewHolder)holder).textViewPrice.setOnClickListener(productClickListener);
+
+        // Click on add button. Add to that product to Cart
+        ((ProductsOnSaleViewHolder)holder).imageViewAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cart.itemList.add(dataSet.get(position));
+                TextView textViewCartQuantity = (TextView) ((BaseActivity)context).findViewById(R.id.text_view_cart_quantity);
+                textViewCartQuantity.setText(String.valueOf(Cart.itemList.size()));
+                textViewCartQuantity.setVisibility(View.VISIBLE);
+            }
+        });
 
     }
 
