@@ -44,4 +44,7 @@ dependencies {
 
     // Circle Image View
     compile 'de.hdodenhof:circleimageview:2.0.0'
+    
+    // viewpager with indicator
+    compile 'com.github.bieliaievays:viewpagerindicator:1.3'
 }

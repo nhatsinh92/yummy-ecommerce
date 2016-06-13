@@ -2,24 +2,24 @@ package me.kimhieu.yummy.ecommerceproject.product_detail_view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.view.Display;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.kimhieu.yummy.ecommerceproject.R;
+import me.kimhieu.yummy.ecommerceproject.model.Image;
 import me.kimhieu.yummy.ecommerceproject.model.Product;
 import me.kimhieu.yummy.ecommerceproject.model.ProductCategory;
 import me.kimhieu.yummy.ecommerceproject.model.ProductResponse;
@@ -31,17 +31,15 @@ import retrofit2.Response;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
-    private ViewPager viewPager;
-    private FragmentStatePagerAdapter adapter;
-    private LinearLayout thumbnailsContainer;
+    private ViewPager viewPagerProductImages;
+    private ViewPager viewPagerRelatedProductImages;
+    private ViewPagerAdapter adapterProductImage;
+    private ViewPagerAdapter adapterRelatedProductImage;
+    private List<Image> relatedImagesList;
 
     private TextView textViewProductName;
-    private RatingBar ratingBar;
-    private TextView textViewNumberOfComment;
-    private TextView textViewRegularPrice;
     private TextView textViewPrice;
     private TextView textViewDescription;
-    private ImageView iv_product_image;
     private CircleImageView civ_category_image_in_product_detail;
     private String productCategory;
     private ProductCategory cate;
@@ -50,29 +48,30 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ImageView imageViewComment;
     private ImageView imageViewMore;
 
+    Toolbar myToolbar;
+
+    private int productId = -1;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
 
-        final Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_in_product_detail);
-        myToolbar.setTitle("");
+        myToolbar = (Toolbar) findViewById(R.id.toolbar_in_product_detail);
+        myToolbar.setTitle("Product Detail");
         setSupportActionBar(myToolbar);
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
 
-        viewPager = (ViewPager) findViewById(R.id.view_pager_product_detail);
+        viewPagerProductImages = (ViewPager) findViewById(R.id.view_pager_product_detail);
+        viewPagerRelatedProductImages = (ViewPager) findViewById(R.id.view_pager_related_products);
 
         civ_category_image_in_product_detail = (CircleImageView) findViewById(R.id.circle_image_view_category_in_product_detail);
         textViewCategoryName = (TextView) findViewById(R.id.text_view_category_name_in_product_detail) ;
         textViewProductName = (TextView) findViewById(R.id.text_view_product_name_in_product_detail);
         textViewPrice = (TextView) findViewById(R.id.text_view_price_in_product_detail);
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        Display display = getWindowManager().getDefaultDisplay();
-        display.getMetrics(displayMetrics);
 
         imageViewLike = (ImageView) findViewById(R.id.image_view_like);
         textViewDescription = (TextView) findViewById(R.id.text_view_description_in_product_detail);
@@ -80,11 +79,12 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         //int productId = intent.getIntExtra(ProductListByCategoryActivity.PRODUCT_ID, -1);
-        int productId = 99;
-
-        WooCommerceService service = ServiceGenerator.createService(WooCommerceService.class);
+        if (productId == -1){
+            productId = 99;
+        }
 
         // Call woo commerce service to get product details
+        WooCommerceService service = ServiceGenerator.createService(WooCommerceService.class);
         Call<ProductResponse> productsResponseCall = service.getProductById(productId);
         productsResponseCall.enqueue(new Callback<ProductResponse>() {
             @Override
@@ -93,30 +93,6 @@ public class ProductDetailActivity extends AppCompatActivity {
                     ProductResponse productResponse = response.body();
                     Product product = productResponse.getProduct();
                     productCategory = product.getCategories().get(0);
-                    myToolbar.setTitle("Product Detail");
-
-                    WooCommerceService service1 = ServiceGenerator.createService(WooCommerceService.class);
-//                    // Call woo commerce service to get all categories
-//                    Call<ProductCategoriesResponse> productCategoryResponseCall = service1.getListCategories();
-//                    productCategoryResponseCall.enqueue(new Callback<ProductCategoriesResponse>() {
-//                        @Override
-//                        public void onResponse(Call<ProductCategoriesResponse> call, Response<ProductCategoriesResponse> response) {
-//                            ProductCategoriesResponse productCategoriesResponse = response.body();
-//                            List<ProductCategory> categoryList = productCategoriesResponse.getProductCategories();
-//                            for (ProductCategory category:categoryList) {
-//                                if (category.getName().equals(productCategory)) {
-//                                    cate = category;
-//                                    System.out.println("asdasdasdasdasd" + cate.getImage());
-//                                    break;
-//                                }
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<ProductCategoriesResponse> call, Throwable t) {
-//
-//                        }
-//                    });
 
                     displayProduct(product);
                 }
@@ -124,6 +100,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ProductResponse> call, Throwable t) {
+                Log.e("ERROR", t.getMessage());
 
             }
         });
@@ -147,9 +124,35 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void displayProduct(Product product) {
-        // init viewpager adapter and attach
-        adapter = new ViewPagerAdapter(getSupportFragmentManager(), product.getImages());
-        viewPager.setAdapter(adapter);
+
+        // init product image viewpager adapter and attach
+        adapterProductImage = new ViewPagerAdapter(this, getSupportFragmentManager(), product.getImages(), product.getRelatedIds());
+        viewPagerProductImages.setAdapter(adapterProductImage);
+
+        // init related product image viewpager adapter and attach
+        adapterRelatedProductImage = new ViewPagerAdapter(this, getSupportFragmentManager(), new ArrayList<Image>(), product.getRelatedIds());
+        viewPagerRelatedProductImages.setAdapter(adapterRelatedProductImage);
+
+        WooCommerceService service = ServiceGenerator.createService(WooCommerceService.class);
+
+        // Get related product images
+        List<Integer> relatedProductIds =  product.getRelatedIds();
+        for (final Integer id:relatedProductIds) {
+            Call<ProductResponse> productsResponseCall = service.getProductById(id);
+            productsResponseCall.enqueue(new Callback<ProductResponse>() {
+                @Override
+                public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                    ProductResponse productResponse = response.body();
+                    Product product = productResponse.getProduct();
+                    adapterRelatedProductImage.updatePageViewer(product.getImages().get(0), id);
+                }
+
+                @Override
+                public void onFailure(Call<ProductResponse> call, Throwable t) {
+
+                }
+            });
+        }
 
         // Category Image
         Glide.with(this.getApplicationContext())
@@ -165,4 +168,26 @@ public class ProductDetailActivity extends AppCompatActivity {
         textViewDescription.setText(product.getDescription());
     }
 
+    public void reloadData (int id) {
+        // Call woo commerce service to get product details
+        WooCommerceService service = ServiceGenerator.createService(WooCommerceService.class);
+        Call<ProductResponse> productsResponseCall = service.getProductById(id);
+        productsResponseCall.enqueue(new Callback<ProductResponse>() {
+            @Override
+            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                if (response.isSuccessful()) {
+                    ProductResponse productResponse = response.body();
+                    Product product = productResponse.getProduct();
+                    productCategory = product.getCategories().get(0);
+                    displayProduct(product);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProductResponse> call, Throwable t) {
+                Log.e("ERROR", t.getMessage());
+
+            }
+        });
+    }
 }
