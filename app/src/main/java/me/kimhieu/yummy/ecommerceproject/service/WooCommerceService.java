@@ -3,6 +3,7 @@ package me.kimhieu.yummy.ecommerceproject.service;
 import me.kimhieu.yummy.ecommerceproject.model.ProductCategoriesResponse;
 import me.kimhieu.yummy.ecommerceproject.model.ProductCategory;
 import me.kimhieu.yummy.ecommerceproject.model.ProductResponse;
+import me.kimhieu.yummy.ecommerceproject.model.ProductReviewsResponse;
 import me.kimhieu.yummy.ecommerceproject.model.ProductsResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -26,5 +27,8 @@ public interface WooCommerceService {
     Call<ProductsResponse> getListProductByCategory(
             @Query("filter[category]") String categoryName
     );
+
+    @GET("products/{id}/reviews")
+    Call<ProductReviewsResponse> getProductReviewsById(@Path("id") int id);
 }
 

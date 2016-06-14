@@ -35,6 +35,12 @@
                     android:layout_centerHorizontal="true">
                 </android.support.v4.view.ViewPager>
 
+                <com.viewpagerindicator.TitlePageIndicator
+                    android:id="@+id/indicator_product_images"
+                    android:layout_alignParentBottom="true"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent" />
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/circle_image_view_category_in_product_detail"
                     android:layout_width="42dp"
@@ -55,6 +61,16 @@
                     android:layout_marginLeft="10dp"
                     android:textSize="17sp"/>
 
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/float_button_add"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="-22dp"
+                    android:elevation="10dp"
+                    android:src="@drawable/ic_add"/>
+
             </RelativeLayout>
 
             <TextView
@@ -62,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/text_view_product_name_in_product_detail"
                 android:textSize="23sp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginLeft="17dp"/>
 
             <TextView
@@ -72,6 +88,7 @@
                 android:textSize="23sp"
                 android:textColor="#ff5e3a"
                 android:layout_marginTop="12.5dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="17dp"/>
 
             <LinearLayout
@@ -121,8 +138,19 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="17dp"
                 android:id="@+id/text_view_description_in_product_detail"
                 android:layout_marginTop="26dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Related Products:"
+                android:textSize="20dp"
+                android:textColor="@android:color/holo_green_dark"
+                android:fontFamily="Arial"/>
+
 
             <android.support.v4.view.ViewPager
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -131,6 +159,11 @@
                 android:layout_height="332dp"
                 android:layout_centerHorizontal="true">
             </android.support.v4.view.ViewPager>
+
+            <com.viewpagerindicator.TitlePageIndicator
+                android:id="@+id/indicator_related_products"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent" />
 
         </LinearLayout>
 

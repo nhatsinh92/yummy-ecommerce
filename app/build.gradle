@@ -47,4 +47,6 @@ dependencies {
 
     // Design
     compile 'com.android.support:design:23.4.0'
+
+    compile 'com.viewpagerindicator:library:2.4.1@aar'
 }

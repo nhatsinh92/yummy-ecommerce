@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="10dp"
+    card_view:cardElevation="5dp"
+    card_view:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/relative_layout_comment_group">
+            <ImageView
+                android:id="@+id/image_view_user_avatar_in_comment_view"
+                android:src="@drawable/no_photo"
+                android:layout_marginTop="7dp"
+                android:layout_marginRight="3dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/image_view_user_avatar_in_comment_view"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+                android:id="@+id/text_view_user"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_view_comment"
+                android:layout_toRightOf="@+id/image_view_user_avatar_in_comment_view"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                android:layout_below="@+id/text_view_user"/>
+            </RelativeLayout>
+
+            <android.support.v7.widget.AppCompatRatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relative_layout_comment_group"
+                android:id="@+id/rating_bar_product_rating"/>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

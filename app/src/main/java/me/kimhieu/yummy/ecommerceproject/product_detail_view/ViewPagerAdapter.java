@@ -19,7 +19,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         this.context = context;
         this.images = imagesList;
         this.relatedProductIds = idsList;
-
     }
 
     @Override
