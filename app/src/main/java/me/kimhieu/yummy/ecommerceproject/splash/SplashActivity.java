@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import me.kimhieu.yummy.ecommerceproject.MainActivity;
 import me.kimhieu.yummy.ecommerceproject.R;
+import me.kimhieu.yummy.ecommerceproject.login.LoginActivity;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -30,7 +31,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                Intent i = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(i);
 
                 // close this activity
