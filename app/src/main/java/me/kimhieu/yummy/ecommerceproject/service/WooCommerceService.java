@@ -6,6 +6,7 @@ import me.kimhieu.yummy.ecommerceproject.model.ProductResponse;
 import me.kimhieu.yummy.ecommerceproject.model.ProductsResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -24,7 +25,9 @@ public interface WooCommerceService {
 
     @GET("products")
     Call<ProductsResponse> getListProductByCategory(
-            @Query("filter[category]") String categoryName
-    );
+            @Query("filter[category]") String categoryName);
+    @POST("orders")
+    Call<>
+
 }
 
