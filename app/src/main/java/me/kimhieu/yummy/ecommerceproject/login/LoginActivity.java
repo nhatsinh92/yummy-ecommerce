@@ -14,6 +14,7 @@ import com.auth0.lock.LockActivity;
 
 import me.kimhieu.yummy.ecommerceproject.MainActivity;
 import me.kimhieu.yummy.ecommerceproject.R;
+import me.kimhieu.yummy.ecommerceproject.onsale.OnSaleActivity;
 
 import static com.auth0.lock.Lock.AUTHENTICATION_ACTION;
 
@@ -26,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private BroadcastReceiver authenticationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            final Intent newIntent = new Intent(LoginActivity.this, MainActivity.class);
+            final Intent newIntent = new Intent(LoginActivity.this, OnSaleActivity.class);
             newIntent.putExtras(intent);
             startActivity(newIntent);
         }

@@ -1,5 +1,7 @@
 package me.kimhieu.yummy.ecommerceproject.login;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +9,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import me.kimhieu.yummy.ecommerceproject.R;
 import me.kimhieu.yummy.ecommerceproject.model.APIErrorsResponse;
@@ -21,6 +26,9 @@ import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    private ViewPager viewPager;
+    private PagerAdapter pagerAdapter;
+
     private TextView textViewEmail;
     private TextView textViewUserName;
     private TextView textViewPassword;
@@ -31,10 +39,15 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        viewPager = (ViewPager) findViewById(R.id.view_pager_sign_up);
         textViewEmail = (TextView) findViewById(R.id.text_view_sign_up_email);
         textViewUserName = (TextView) findViewById(R.id.text_view_sign_up_user_name);
         textViewPassword = (TextView) findViewById(R.id.text_view_sign_up_password);
         imageButtonSignUp = (ImageButton) findViewById(R.id.image_button_sign_up);
+
+        List<Fragment> fragmentList = getFragment();
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragmentList);
+        viewPager.setAdapter(pagerAdapter);
 
         imageButtonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +85,16 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public List<Fragment> getFragment() {
+        List<Fragment> fragments = new ArrayList<Fragment>();
+
+        fragments.add(PageFragment.createInstance(R.drawable.slider));
+        fragments.add(PageFragment.createInstance(R.drawable.slider));
+        fragments.add(PageFragment.createInstance(R.drawable.slider));
+
+        return fragments;
     }
 
     public void clearText() {
