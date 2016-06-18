@@ -47,4 +47,8 @@ public class ServiceGenerator {
         return retrofit.create(serviceClass);
     }
 
+    public static Retrofit retrofit() {
+        return builder.client(httpClient.build()).build();
+    }
+
 }
