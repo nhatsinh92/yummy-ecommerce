@@ -1,5 +1,6 @@
 package me.kimhieu.yummy.ecommerceproject.navigation_drawer;
 
+import android.support.annotation.LayoutRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -96,11 +97,11 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    public void setContentView(int layoutResID) {
+    public void setContentView(@LayoutRes int layoutResID) {
         fullView = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_base, null);
         activityContainer = (FrameLayout) fullView.findViewById(R.id.content_frame);
         getLayoutInflater().inflate(layoutResID, activityContainer, true);
-        super.setContentView(fullView);
+        super.setContentView(layoutResID);
         onCreateDrawer();
     }
 
