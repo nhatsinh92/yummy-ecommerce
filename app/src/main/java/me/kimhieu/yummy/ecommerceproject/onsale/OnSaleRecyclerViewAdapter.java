@@ -1,9 +1,6 @@
 package me.kimhieu.yummy.ecommerceproject.onsale;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,15 +10,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
-import java.util.Random;
 
 import me.kimhieu.yummy.ecommerceproject.R;
 import me.kimhieu.yummy.ecommerceproject.model.Product;
 import me.kimhieu.yummy.ecommerceproject.navigation_drawer.BaseActivity;
-import me.kimhieu.yummy.ecommerceproject.utils.Cart;
+import me.kimhieu.yummy.ecommerceproject.utils.YummySession;
 
 public class OnSaleRecyclerViewAdapter extends RecyclerView.Adapter {
 
@@ -78,9 +72,9 @@ public class OnSaleRecyclerViewAdapter extends RecyclerView.Adapter {
         ((ProductsOnSaleViewHolder)holder).imageViewAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Cart.itemList.add(dataSet.get(position));
+                YummySession.cart.add(dataSet.get(position));
                 TextView textViewCartQuantity = (TextView) ((BaseActivity)context).findViewById(R.id.text_view_cart_quantity);
-                textViewCartQuantity.setText(String.valueOf(Cart.itemList.size()));
+                textViewCartQuantity.setText(String.valueOf(YummySession.cart.size()));
                 textViewCartQuantity.setVisibility(View.VISIBLE);
             }
         });

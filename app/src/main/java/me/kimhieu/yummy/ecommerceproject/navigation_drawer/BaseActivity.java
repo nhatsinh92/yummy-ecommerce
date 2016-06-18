@@ -20,7 +20,7 @@ import me.kimhieu.yummy.ecommerceproject.R;
 public class BaseActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private NavigationView navigationView;
+    protected NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
