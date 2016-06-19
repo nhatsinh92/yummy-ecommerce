@@ -1,5 +1,6 @@
 package me.kimhieu.yummy.ecommerceproject.navigation_drawer;
 
+import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -10,8 +11,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import me.kimhieu.yummy.ecommerceproject.R;
+import me.kimhieu.yummy.ecommerceproject.onsale.OnSaleActivity;
+import me.kimhieu.yummy.ecommerceproject.utils.YummySession;
 
 /**
  * This activity create a general navigation drawer.
@@ -61,6 +68,7 @@ public class BaseActivity extends AppCompatActivity {
         //calling sync state is necessary or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
 
+        UpdateHeader(this, navigationView);
     }
 
     public class NavigationViewItemListener implements NavigationView.OnNavigationItemSelectedListener {
@@ -92,6 +100,21 @@ public class BaseActivity extends AppCompatActivity {
                 default:
                     return true;
             }
+        }
+    }
+
+    public static void UpdateHeader (Context context, NavigationView navigationView){
+        if (YummySession.userProfile != null) {
+            View v = navigationView.getHeaderView(0);
+            CircleImageView profilePicture = (CircleImageView) v.findViewById(R.id.header_profile_image);
+            TextView textViewUserName = (TextView) v.findViewById(R.id.header_user_name);
+            TextView textViewEmail = (TextView) v.findViewById(R.id.header_email);
+
+            Glide.with(context)
+                    .load(YummySession.userProfile.getPictureURL())
+                    .into(profilePicture);
+            textViewUserName.setText(YummySession.userProfile.getName());
+            textViewEmail.setText(YummySession.userProfile.getEmail());
         }
     }
 

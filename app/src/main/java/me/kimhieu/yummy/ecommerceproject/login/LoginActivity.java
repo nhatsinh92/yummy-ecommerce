@@ -10,11 +10,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.auth0.lock.Lock;
 import com.auth0.lock.LockActivity;
 
 import me.kimhieu.yummy.ecommerceproject.MainActivity;
 import me.kimhieu.yummy.ecommerceproject.R;
 import me.kimhieu.yummy.ecommerceproject.onsale.OnSaleActivity;
+import me.kimhieu.yummy.ecommerceproject.utils.YummySession;
 
 import static com.auth0.lock.Lock.AUTHENTICATION_ACTION;
 
@@ -27,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     private BroadcastReceiver authenticationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            YummySession.userProfile = intent.getParcelableExtra(Lock.AUTHENTICATION_ACTION_PROFILE_PARAMETER);
             final Intent newIntent = new Intent(LoginActivity.this, OnSaleActivity.class);
             newIntent.putExtras(intent);
             startActivity(newIntent);
