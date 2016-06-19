@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -13,14 +12,9 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
-import com.auth0.core.UserProfile;
-import com.auth0.lock.Lock;
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import me.kimhieu.yummy.ecommerceproject.R;
 import me.kimhieu.yummy.ecommerceproject.model.Product;
 import me.kimhieu.yummy.ecommerceproject.model.ProductsResponse;
@@ -75,23 +69,6 @@ public class OnSaleActivity extends BaseActivity {
             textViewCartQuantity.setText(String.valueOf(YummySession.cart.size()));
         }
 
-        YummySession.userProfile = getIntent().getParcelableExtra(Lock.AUTHENTICATION_ACTION_PROFILE_PARAMETER);
-        UpdateHeader(this, navigationView);
-    }
-
-    public static void UpdateHeader (Context context, NavigationView navigationView){
-        if (YummySession.userProfile != null) {
-            View v = navigationView.getHeaderView(0);
-            CircleImageView profilePicture = (CircleImageView) v.findViewById(R.id.header_profile_image);
-            TextView textViewUserName = (TextView) v.findViewById(R.id.header_user_name);
-            TextView textViewEmail = (TextView) v.findViewById(R.id.header_email);
-
-            Glide.with(context)
-                    .load(YummySession.userProfile.getPictureURL())
-                    .into(profilePicture);
-            textViewUserName.setText(YummySession.userProfile.getName());
-            textViewEmail.setText(YummySession.userProfile.getEmail());
-        }
     }
 
     @Override
