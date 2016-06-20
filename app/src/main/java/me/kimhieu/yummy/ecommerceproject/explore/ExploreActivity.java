@@ -25,6 +25,7 @@ import me.kimhieu.yummy.ecommerceproject.model.Product;
 import me.kimhieu.yummy.ecommerceproject.model.ProductCategoriesResponse;
 import me.kimhieu.yummy.ecommerceproject.model.ProductCategory;
 import me.kimhieu.yummy.ecommerceproject.model.ProductsResponse;
+import me.kimhieu.yummy.ecommerceproject.navigation_drawer.BaseActivity;
 import me.kimhieu.yummy.ecommerceproject.service.ServiceGenerator;
 import me.kimhieu.yummy.ecommerceproject.service.WooCommerceService;
 import me.kimhieu.yummy.ecommerceproject.utils.ExploreLibrary;
@@ -35,7 +36,7 @@ import retrofit2.Response;
 /**
  * Created by Tri Nguyen on 6/9/2016.
  */
-public class ExploreActivity extends AppCompatActivity {
+public class ExploreActivity extends BaseActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -45,7 +46,7 @@ public class ExploreActivity extends AppCompatActivity {
     private ArrayAdapter<String> spinnerAdapter;
     private List<ProductCategory> nestedCategory;
     private List<ProductCategory> categoriList;
-    private  PagerViewAdapter pageViewerAdapter;
+    private PagerViewAdapter pageViewerAdapter;
     private FragmentManager manager;
 
     @Override
@@ -56,10 +57,10 @@ public class ExploreActivity extends AppCompatActivity {
         manager = getSupportFragmentManager();
         pageViewerAdapter = new PagerViewAdapter(manager);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        // toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
