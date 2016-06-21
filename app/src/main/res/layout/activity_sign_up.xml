@@ -15,7 +15,15 @@
             android:layout_height="match_parent"
             android:id="@+id/view_pager_sign_up" />
 
-
+        <LinearLayout
+            android:id="@+id/view_pager_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="25dp"/>
     </RelativeLayout>
 
     <LinearLayout
