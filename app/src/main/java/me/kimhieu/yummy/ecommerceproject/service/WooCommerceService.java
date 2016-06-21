@@ -1,12 +1,15 @@
 package me.kimhieu.yummy.ecommerceproject.service;
 
+import me.kimhieu.yummy.ecommerceproject.model.CustomerResponse;
 import me.kimhieu.yummy.ecommerceproject.model.ProductCategoriesResponse;
 import me.kimhieu.yummy.ecommerceproject.model.ProductCategory;
 import me.kimhieu.yummy.ecommerceproject.model.ProductResponse;
 import me.kimhieu.yummy.ecommerceproject.model.ProductReviewsResponse;
 import me.kimhieu.yummy.ecommerceproject.model.ProductsResponse;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -30,5 +33,8 @@ public interface WooCommerceService {
 
     @GET("products/{id}/reviews")
     Call<ProductReviewsResponse> getProductReviewsById(@Path("id") int id);
+
+    @POST("customers")
+    Call<CustomerResponse> addCustomer(@Body CustomerResponse customerResponse);
 }
 

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth0_client_id">qdrq5fjm2L7F9joo4UapHLyWcAsRPJek</string>
+    <string name="auth0_scheme">a0qdrq5fjm2l7f9joo4uaphlywcasrpjek</string>
+    <string name="auth0_domain">sinh.auth0.com</string>
+
+    <!--my app-->
+    <string name="facebook_app_id">2056009751291762</string>
+
+    <!--example app-->
+    <!--<string name="facebook_app_id">696506353719958</string>-->
+</resources>

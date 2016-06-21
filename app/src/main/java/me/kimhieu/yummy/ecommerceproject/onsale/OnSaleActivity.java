@@ -21,7 +21,7 @@ import me.kimhieu.yummy.ecommerceproject.model.ProductsResponse;
 import me.kimhieu.yummy.ecommerceproject.navigation_drawer.BaseActivity;
 import me.kimhieu.yummy.ecommerceproject.service.ServiceGenerator;
 import me.kimhieu.yummy.ecommerceproject.service.WooCommerceService;
-import me.kimhieu.yummy.ecommerceproject.utils.Cart;
+import me.kimhieu.yummy.ecommerceproject.utils.YummySession;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -62,12 +62,13 @@ public class OnSaleActivity extends BaseActivity {
         fabCart = (FloatingActionButton) findViewById(R.id.fab_cart);
         textViewCartQuantity = (TextView) findViewById(R.id.text_view_cart_quantity);
 
-        if (Cart.itemList.size() == 0) {
+        if (YummySession.cart.size() == 0) {
             textViewCartQuantity.setVisibility(View.INVISIBLE);
         }else {
             textViewCartQuantity.setVisibility(View.VISIBLE);
-            textViewCartQuantity.setText(String.valueOf(Cart.itemList.size()));
+            textViewCartQuantity.setText(String.valueOf(YummySession.cart.size()));
         }
+
     }
 
     @Override

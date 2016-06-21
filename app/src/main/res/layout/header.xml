@@ -8,7 +8,7 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/profile_image"
+        android:id="@+id/header_profile_image"
         android:layout_width="76dp"
         android:layout_height="76dp"
         app:border_color="#FF000000"
@@ -27,22 +27,22 @@
         android:textStyle="bold"
         android:gravity="left"
         android:paddingBottom="4dp"
-        android:id="@+id/username"
-        android:layout_above="@+id/email"
-        android:layout_alignLeft="@+id/profile_image"
-        android:layout_alignStart="@+id/profile_image" />
+        android:id="@+id/header_user_name"
+        android:layout_above="@+id/header_email"
+        android:layout_alignLeft="@+id/header_profile_image"
+        android:layout_alignStart="@+id/header_profile_image" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="customer_email@domain.com"
-        android:id="@+id/email"
+        android:id="@+id/header_email"
         android:gravity="left"
         android:layout_marginBottom="8dp"
         android:textSize="14sp"
         android:textColor="#fff"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/username"
-        android:layout_alignStart="@+id/username" />
+        android:layout_alignLeft="@+id/header_user_name"
+        android:layout_alignStart="@+id/header_user_name" />
 
 </RelativeLayout>

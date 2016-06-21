@@ -4,6 +4,9 @@ package me.kimhieu.yummy.ecommerceproject.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProductCategory {
 
     @SerializedName("id")
@@ -31,6 +34,7 @@ public class ProductCategory {
     @Expose
     private Integer count;
 
+    private List<ProductCategory> children = new ArrayList<ProductCategory>();
     /**
      * No args constructor for use in serialization
      * 
@@ -204,4 +208,37 @@ public class ProductCategory {
         this.count = count;
     }
 
+    public void addChild(ProductCategory child)
+    {
+        children.add(child);
+    }
+
+    /**
+     *
+     *
+     *
+     */
+    public void initualizeChildren()
+    {
+        children = new ArrayList<ProductCategory>();
+    }
+    /**
+     *
+     * @return
+     *     numer of children
+     */
+    public int getChildNumber()
+    {
+        return children.size();
+    }
+
+    /**
+     *
+     * @return
+     *     children list
+     */
+    public List<ProductCategory> getChild()
+    {
+        return children;
+    }
 }
