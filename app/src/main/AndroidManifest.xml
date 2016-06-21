@@ -15,28 +15,35 @@
         <activity
             android:name=".splash.SplashActivity"
             android:screenOrientation="portrait">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
-
-        <activity android:name=".product_detail_view.ProductDetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <activity android:name=".MainActivity"></activity>
+
+        <!--Navigation Drawer Activity-->
+        <activity android:name=".navigation_drawer.BaseActivity"></activity>
+
+        <!--On Sale Activity-->
         <activity
-            android:name=".product_detail_view.ProductCommentActivity"
-            android:parentActivityName=".product_detail_view.ProductDetailActivity">
+            android:name=".onsale.OnSaleActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
 
-        <activity android:name=".MainActivity">
+        <!--Product Detail Activity-->
+        <activity
+            android:name=".product_detail_view.ProductDetailActivity" >
+
         </activity>
+
     </application>
 
 </manifest>

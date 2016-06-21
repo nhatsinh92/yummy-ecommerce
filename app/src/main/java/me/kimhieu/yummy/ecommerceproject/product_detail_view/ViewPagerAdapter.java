@@ -21,6 +21,12 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         this.relatedProductIds = idsList;
     }
 
+    public ViewPagerAdapter(Context context, FragmentManager fm, List<Image> imagesList) {
+        super(fm);
+        this.context = context;
+        this.images = imagesList;
+    }
+
     @Override
     public Fragment getItem(final int position) {
         String s = images.get(position).getSrc();

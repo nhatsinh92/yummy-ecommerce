@@ -153,7 +153,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void displayProduct(Product product) {
 
         // init product image viewpager adapter and attach
-        adapterProductImage = new ViewPagerAdapter(this, getSupportFragmentManager(), product.getImages(), product.getRelatedIds());
+        adapterProductImage = new ViewPagerAdapter(this, getSupportFragmentManager(), product.getImages());
         viewPagerProductImages.setAdapter(adapterProductImage);
 
         //Bind the title indicator to the adapter
