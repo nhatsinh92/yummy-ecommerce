@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,10 +26,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity{
 
     private ViewPager viewPager;
     private PagerAdapter pagerAdapter;
+    private LinearLayout pagerIndicator;
+    private ImageView[] dots;
+    private int dotsCount;
 
     private TextView textViewEmail;
     private TextView textViewUserName;
@@ -40,6 +45,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         viewPager = (ViewPager) findViewById(R.id.view_pager_sign_up);
+        pagerIndicator = (LinearLayout) findViewById(R.id.view_pager_indicator);
         textViewEmail = (TextView) findViewById(R.id.text_view_sign_up_email);
         textViewUserName = (TextView) findViewById(R.id.text_view_sign_up_user_name);
         textViewPassword = (TextView) findViewById(R.id.text_view_sign_up_password);
@@ -48,6 +54,8 @@ public class SignUpActivity extends AppCompatActivity {
         List<Fragment> fragmentList = getFragment();
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.addOnPageChangeListener(new PageChangeListener());
+        setPageViewerIndicator();
 
         imageButtonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,9 +95,66 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
+    private void setPageViewerIndicator () {
+        dotsCount = pagerAdapter.getCount();
+        dots = new ImageView[dotsCount];
+
+        for (int i = 0; i < dots.length; i++) {
+            dots[i] = new ImageView(this);
+            dots[i].setImageResource(R.drawable.ic_unselected_dot);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(4, 0, 4, 0);
+            pagerIndicator.addView(dots[i], params);
+            dots[i].setOnClickListener(new PagerViewerIndicatorItemSelected(i));
+        }
+        dots[0].setImageResource(R.drawable.ic_selected_dot);
+    }
+
+    public class PageChangeListener implements ViewPager.OnPageChangeListener {
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            for (int i = 0; i < dots.length; i++) {
+                dots[i].setImageResource(R.drawable.ic_unselected_dot);
+            }
+            dots[position].setImageResource(R.drawable.ic_selected_dot);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    }
+
+    public class PagerViewerIndicatorItemSelected implements View.OnClickListener {
+
+        private int position;
+
+        public PagerViewerIndicatorItemSelected(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            viewPager.setCurrentItem(position);
+            for (int i = 0; i < dots.length; i++) {
+                dots[i].setImageResource(R.drawable.ic_unselected_dot);
+            }
+            dots[position].setImageResource(R.drawable.ic_selected_dot);
+        }
+    }
+
     public List<Fragment> getFragment() {
         List<Fragment> fragments = new ArrayList<Fragment>();
 
+        fragments.add(PageFragment.createInstance(R.drawable.slider));
         fragments.add(PageFragment.createInstance(R.drawable.slider));
         fragments.add(PageFragment.createInstance(R.drawable.slider));
         fragments.add(PageFragment.createInstance(R.drawable.slider));
