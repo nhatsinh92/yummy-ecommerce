@@ -13,14 +13,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
 import java.util.List;
 import me.kimhieu.yummy.ecommerceproject.R;
-import me.kimhieu.yummy.ecommerceproject.event.CategoryLoadingEvent;
-import me.kimhieu.yummy.ecommerceproject.event.ProductLoadingEvent;
 import me.kimhieu.yummy.ecommerceproject.model.Product;
 import me.kimhieu.yummy.ecommerceproject.model.ProductCategoriesResponse;
 import me.kimhieu.yummy.ecommerceproject.model.ProductCategory;
@@ -37,7 +32,6 @@ import retrofit2.Response;
  * Created by Tri Nguyen on 6/9/2016.
  */
 public class ExploreActivity extends BaseActivity {
-    private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private Spinner spinner;
@@ -56,10 +50,7 @@ public class ExploreActivity extends BaseActivity {
         manager = getSupportFragmentManager();
         pageViewerAdapter = new PagerViewAdapter(manager);
 
-        //toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -93,19 +84,25 @@ public class ExploreActivity extends BaseActivity {
                 ProductCategoriesResponse categoriesResponse = response.body();
                 categoriList = categoriesResponse.getProductCategories();
                 nestedCategory = ExploreLibrary.tranformToHierarchy(categoriList);
-                EventBus.getDefault().post(new CategoryLoadingEvent(true));
+
+                ArrayList<String> listItemSpinner = new ArrayList<>();
+                for (ProductCategory singleCategory : nestedCategory)
+                {
+                    listItemSpinner.add(singleCategory.getName());
+                }
+                spinnerAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.sprinner_item, listItemSpinner);
+                spinnerAdapter.setDropDownViewResource(R.layout.sprinner_item);
+                spinner.setAdapter(spinnerAdapter);
             }
             @Override
             public void onFailure(Call<ProductCategoriesResponse> call, Throwable t) {
                 Log.e("Error",t.getMessage());
-                EventBus.getDefault().post(new CategoryLoadingEvent(false));
             }
         });
     }
 
-    //load product list by a single category selected from server
-    public void setupViewPager(final List<ProductCategory> categories ) {
-        // clear all tabs and viewpagers
+    private void clearFragement()
+    {
         if (manager.getFragments() != null)
         {
             manager.getFragments().clear();
@@ -114,6 +111,12 @@ public class ExploreActivity extends BaseActivity {
             viewPager.setAdapter(pageViewerAdapter);
             tabLayout.setupWithViewPager(viewPager);
         }
+    }
+
+    //load product list by a single category selected from server
+    public void setupViewPager(final List<ProductCategory> categories ) {
+        // clear all tabs and viewpagers
+        clearFragement();
 
         for (final ProductCategory singleCategory : categories)
         {
@@ -124,7 +127,11 @@ public class ExploreActivity extends BaseActivity {
                 public void onResponse(Call<ProductsResponse> call, Response<ProductsResponse> response) {
                     ProductsResponse productsResponse = response.body();
                     List<Product> productListByCategory = productsResponse.getProducts();
-                    EventBus.getDefault().post(new ProductLoadingEvent(true, productListByCategory, singleCategory.getName()));
+
+                    pageViewerAdapter.addFrag(new ProductListFragment(productListByCategory),singleCategory.getName());
+                    viewPager.setAdapter(pageViewerAdapter);
+                    tabLayout = (TabLayout) findViewById(R.id.tabs);
+                    tabLayout.setupWithViewPager(viewPager);
             }
                 @Override
                 public void onFailure(Call<ProductsResponse> call, Throwable t) {
@@ -134,51 +141,11 @@ public class ExploreActivity extends BaseActivity {
         }
     }
 
-    @Subscribe
-    public void onProductCategoryLoading(CategoryLoadingEvent event)
-    {
-        if (event.getStatus() == true)
-        {
-            ArrayList<String> listItemSpinner = new ArrayList<>();
-            for (ProductCategory singleCategory : nestedCategory)
-            {
-                listItemSpinner.add(singleCategory.getName());
-            }
-            spinnerAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.sprinner_item, listItemSpinner);
-            spinnerAdapter.setDropDownViewResource(R.layout.sprinner_item);
-            spinner.setAdapter(spinnerAdapter);
-        }
-    }
-
-    @Subscribe
-    public void onProductLoadingEvent(ProductLoadingEvent event)
-    {
-        pageViewerAdapter.addFrag(new ProductListFragment(event.getProductList()),event.getCategoryName());
-        viewPager.setAdapter(pageViewerAdapter);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-    }
-
-    @Override
-    protected  void onStart()
-    {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onStop()
-    {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.explore_menu, menu);
         return true;
     }
-
 }
 
