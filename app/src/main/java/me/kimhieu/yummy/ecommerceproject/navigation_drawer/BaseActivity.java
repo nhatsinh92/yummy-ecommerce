@@ -1,6 +1,7 @@
 package me.kimhieu.yummy.ecommerceproject.navigation_drawer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +18,7 @@ import com.bumptech.glide.Glide;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.kimhieu.yummy.ecommerceproject.R;
+import me.kimhieu.yummy.ecommerceproject.explore.ExploreActivity;
 import me.kimhieu.yummy.ecommerceproject.onsale.OnSaleActivity;
 import me.kimhieu.yummy.ecommerceproject.utils.YummySession;
 
@@ -88,14 +90,20 @@ public class BaseActivity extends AppCompatActivity {
             // TODO: Indicate the destination activity for each item
             switch (menuItem.getItemId()) {
                 case R.id.explore:
+                    BaseActivity.this.finish();
+                    startActivity(new Intent(BaseActivity.this, ExploreActivity.class));
                     return true;
                 case R.id.onsale:
+                    BaseActivity.this.finish();
+                    startActivity(new Intent(BaseActivity.this, OnSaleActivity.class));
                     return true;
                 case R.id.cart:
                     return true;
                 case R.id.settings:
                     return true;
                 case R.id.logout:
+                    BaseActivity.this.finish();
+                    YummySession.userProfile = null;
                     return true;
                 default:
                     return true;

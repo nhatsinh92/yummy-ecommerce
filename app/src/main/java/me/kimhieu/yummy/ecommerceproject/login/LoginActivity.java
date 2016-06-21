@@ -15,7 +15,9 @@ import com.auth0.lock.LockActivity;
 
 import me.kimhieu.yummy.ecommerceproject.MainActivity;
 import me.kimhieu.yummy.ecommerceproject.R;
+import me.kimhieu.yummy.ecommerceproject.explore.ExploreActivity;
 import me.kimhieu.yummy.ecommerceproject.onsale.OnSaleActivity;
+import me.kimhieu.yummy.ecommerceproject.utils.ExploreLibrary;
 import me.kimhieu.yummy.ecommerceproject.utils.YummySession;
 
 import static com.auth0.lock.Lock.AUTHENTICATION_ACTION;
@@ -30,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             YummySession.userProfile = intent.getParcelableExtra(Lock.AUTHENTICATION_ACTION_PROFILE_PARAMETER);
-            final Intent newIntent = new Intent(LoginActivity.this, OnSaleActivity.class);
+            final Intent newIntent = new Intent(LoginActivity.this, ExploreActivity.class);
             newIntent.putExtras(intent);
             startActivity(newIntent);
         }
