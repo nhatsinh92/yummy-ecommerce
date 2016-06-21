@@ -11,5 +11,6 @@ public class YummySession {
 
     public static List<Product> cart = new ArrayList<>();
     public static UserProfile userProfile;
+    public static int selectedItemPosition = -1;
 
 }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 import me.kimhieu.yummy.ecommerceproject.R;
 import me.kimhieu.yummy.ecommerceproject.model.Product;
+import me.kimhieu.yummy.ecommerceproject.utils.YummySession;
 
 /**
  * Created by Tri Nguyen on 6/9/2016.
@@ -41,6 +43,7 @@ public class ProductListAdapter extends RecyclerView.Adapter{
         public TextView textViewProductPrice;
         public ImageView imageViewProductImage;
         public CardView productView;
+        public ImageView imageViewAddButton;
 
         public CategoryViewHolder(View itemView)
         {
@@ -48,6 +51,7 @@ public class ProductListAdapter extends RecyclerView.Adapter{
             textViewProductName = (TextView) itemView.findViewById(R.id.cell_product_name);
             textViewProductPrice = (TextView) itemView.findViewById(R.id.cell_product_price);
             imageViewProductImage =  (ImageView) itemView.findViewById(R.id.cell_product_image);
+            imageViewAddButton = (ImageView) itemView.findViewById(R.id.cell_product_add_button);
             productView = (CardView) itemView.findViewById(R.id.cell_product);
         }
     }
@@ -74,6 +78,16 @@ public class ProductListAdapter extends RecyclerView.Adapter{
 //                Intent intent = new Intent(mContext, dummy_activity.class);
 //                intent.putExtra(ExploreLibrary.PRODUCT_NAME,productList.get(position).getTitle());
 //                mContext.startActivity(intent);
+            }
+        });
+
+        ((CategoryViewHolder)holder).imageViewAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                YummySession.cart.add(productList.get(position));
+                Toast.makeText(mContext,
+                        productList.get(position).getTitle() + " is added to cart",
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
