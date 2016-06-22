@@ -22,6 +22,7 @@ import me.kimhieu.yummy.ecommerceproject.utils.YummySession;
 
 public class OnSaleRecyclerViewAdapter extends RecyclerView.Adapter {
 
+
     private List<Product> dataSet;
     private Context context;
 
@@ -98,7 +99,7 @@ public class OnSaleRecyclerViewAdapter extends RecyclerView.Adapter {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(context, ProductDetailActivity.class);
-            intent.putExtra("PRODUCT_ID", dataSet.get(position).getId());
+            intent.putExtra(YummySession.PRODUCT_ID, dataSet.get(position).getId());
             context.startActivity(intent);
         }
     }

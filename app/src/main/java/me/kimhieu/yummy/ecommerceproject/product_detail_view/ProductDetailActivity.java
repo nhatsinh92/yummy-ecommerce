@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -36,6 +38,7 @@ import me.kimhieu.yummy.ecommerceproject.model.ProductReview;
 import me.kimhieu.yummy.ecommerceproject.model.ProductReviewsResponse;
 import me.kimhieu.yummy.ecommerceproject.service.ServiceGenerator;
 import me.kimhieu.yummy.ecommerceproject.service.WooCommerceService;
+import me.kimhieu.yummy.ecommerceproject.utils.YummySession;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,6 +57,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ImageView imageViewComment;
     private TextView textViewRelatedProductName;
     private PopupWindow popWindow;
+    private FloatingActionButton fabAddToCart;
 
     int mDeviceHeight;
     private String productCategory;
@@ -88,10 +92,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         textViewPrice = (TextView) findViewById(R.id.text_view_price_in_product_detail);
         imageViewComment = (ImageView) findViewById(R.id.image_view_comment);
         textViewDescription = (TextView) findViewById(R.id.text_view_description_in_product_detail);
-
+        fabAddToCart = (FloatingActionButton) findViewById(R.id.fab_add_to_cart);
 
         Intent intent = getIntent();
-        productId = intent.getIntExtra("PRODUCT_ID", -1);
+        productId = intent.getIntExtra(YummySession.PRODUCT_ID, -1);
 
         // Call woo commerce service to get product details
         WooCommerceService service = ServiceGenerator.createService(WooCommerceService.class);
@@ -104,6 +108,15 @@ public class ProductDetailActivity extends AppCompatActivity {
                     final Product product = productResponse.getProduct();
                     productCategory = product.getCategories().get(0);
                     displayProduct(product);
+                    fabAddToCart.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            YummySession.cart.add(product);
+                            Toast.makeText(ProductDetailActivity.this,
+                                    product.getTitle() + " is added to cart",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
 

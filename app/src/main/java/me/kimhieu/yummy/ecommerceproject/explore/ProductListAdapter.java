@@ -1,6 +1,7 @@
 package me.kimhieu.yummy.ecommerceproject.explore;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import me.kimhieu.yummy.ecommerceproject.R;
 import me.kimhieu.yummy.ecommerceproject.model.Product;
+import me.kimhieu.yummy.ecommerceproject.product_detail_view.ProductDetailActivity;
 import me.kimhieu.yummy.ecommerceproject.utils.YummySession;
 
 /**
@@ -74,10 +76,9 @@ public class ProductListAdapter extends RecyclerView.Adapter{
         ((CategoryViewHolder)holder).productView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO pass product item to product detail view
-//                Intent intent = new Intent(mContext, dummy_activity.class);
-//                intent.putExtra(ExploreLibrary.PRODUCT_NAME,productList.get(position).getTitle());
-//                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, ProductDetailActivity.class);
+                intent.putExtra(YummySession.PRODUCT_ID, productList.get(position).getId());
+                mContext.startActivity(intent);
             }
         });
 
