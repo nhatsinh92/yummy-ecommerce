@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -78,6 +79,9 @@ public class OnSaleRecyclerViewAdapter extends RecyclerView.Adapter {
                 TextView textViewCartQuantity = (TextView) ((BaseActivity)context).findViewById(R.id.text_view_cart_quantity);
                 textViewCartQuantity.setText(String.valueOf(YummySession.cart.size()));
                 textViewCartQuantity.setVisibility(View.VISIBLE);
+                Toast.makeText(context,
+                        dataSet.get(position).getTitle() + " is added to cart",
+                        Toast.LENGTH_SHORT).show();
             }
         });
 

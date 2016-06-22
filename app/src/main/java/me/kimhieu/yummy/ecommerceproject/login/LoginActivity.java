@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             YummySession.userProfile = intent.getParcelableExtra(Lock.AUTHENTICATION_ACTION_PROFILE_PARAMETER);
+            YummySession.selectedItemPosition = 0;
             final Intent newIntent = new Intent(LoginActivity.this, ExploreActivity.class);
             newIntent.putExtras(intent);
             startActivity(newIntent);

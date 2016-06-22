@@ -71,6 +71,11 @@ public class BaseActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
 
         UpdateHeader(this, navigationView);
+
+        if (YummySession.selectedItemPosition != -1) {
+            navigationView.getMenu().getItem(YummySession.selectedItemPosition).setChecked(true);
+        }
+
     }
 
     public class NavigationViewItemListener implements NavigationView.OnNavigationItemSelectedListener {
@@ -78,9 +83,7 @@ public class BaseActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(MenuItem menuItem) {
             //Checking if the item is in checked state or not, if not make it in checked state
-            if(menuItem.isChecked()) {
-                menuItem.setChecked(false);
-            } else {
+            if(!menuItem.isChecked()) {
                 menuItem.setChecked(true);
             }
 
@@ -90,12 +93,18 @@ public class BaseActivity extends AppCompatActivity {
             // TODO: Indicate the destination activity for each item
             switch (menuItem.getItemId()) {
                 case R.id.explore:
-                    BaseActivity.this.finish();
-                    startActivity(new Intent(BaseActivity.this, ExploreActivity.class));
+                    if (YummySession.selectedItemPosition != 0) {
+                        BaseActivity.this.finish();
+                        startActivity(new Intent(BaseActivity.this, ExploreActivity.class));
+                        YummySession.selectedItemPosition = 0;
+                    }
                     return true;
                 case R.id.onsale:
-                    BaseActivity.this.finish();
-                    startActivity(new Intent(BaseActivity.this, OnSaleActivity.class));
+                    if (YummySession.selectedItemPosition != 1) {
+                        BaseActivity.this.finish();
+                        startActivity(new Intent(BaseActivity.this, OnSaleActivity.class));
+                        YummySession.selectedItemPosition = 1;
+                    }
                     return true;
                 case R.id.cart:
                     return true;
@@ -104,6 +113,8 @@ public class BaseActivity extends AppCompatActivity {
                 case R.id.logout:
                     BaseActivity.this.finish();
                     YummySession.userProfile = null;
+                    YummySession.selectedItemPosition = -1;
+                    YummySession.cart = null;
                     return true;
                 default:
                     return true;
