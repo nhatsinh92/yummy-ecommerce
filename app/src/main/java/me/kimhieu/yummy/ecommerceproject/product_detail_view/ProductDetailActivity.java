@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +23,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.viewpagerindicator.TitlePageIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import me.kimhieu.yummy.ecommerceproject.R;
 import me.kimhieu.yummy.ecommerceproject.model.Image;
 import me.kimhieu.yummy.ecommerceproject.model.Product;
-import me.kimhieu.yummy.ecommerceproject.model.ProductCategory;
 import me.kimhieu.yummy.ecommerceproject.model.ProductResponse;
 import me.kimhieu.yummy.ecommerceproject.model.ProductReview;
 import me.kimhieu.yummy.ecommerceproject.model.ProductReviewsResponse;
@@ -47,19 +46,17 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ViewPager viewPagerRelatedProductImages;
     private ViewPagerAdapter adapterProductImage;
     private ViewPagerAdapter adapterRelatedProductImage;
-
     private TextView textViewProductName;
     private TextView textViewPrice;
     private TextView textViewDescription;
     private CircleImageView civ_category_image_in_product_detail;
-    private String productCategory;
-    private ProductCategory cate;
     private TextView textViewCategoryName;
     private ImageView imageViewComment;
-
+    private TextView textViewRelatedProductName;
     private PopupWindow popWindow;
-    int mDeviceHeight;
 
+    int mDeviceHeight;
+    private String productCategory;
     private int productId = -1;
 
     // declare recycler view
@@ -85,21 +82,16 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         viewPagerProductImages = (ViewPager) findViewById(R.id.view_pager_product_detail);
         viewPagerRelatedProductImages = (ViewPager) findViewById(R.id.view_pager_related_products);
-
         civ_category_image_in_product_detail = (CircleImageView) findViewById(R.id.circle_image_view_category_in_product_detail);
         textViewCategoryName = (TextView) findViewById(R.id.text_view_category_name_in_product_detail) ;
         textViewProductName = (TextView) findViewById(R.id.text_view_product_name_in_product_detail);
         textViewPrice = (TextView) findViewById(R.id.text_view_price_in_product_detail);
-
         imageViewComment = (ImageView) findViewById(R.id.image_view_comment);
         textViewDescription = (TextView) findViewById(R.id.text_view_description_in_product_detail);
 
 
         Intent intent = getIntent();
-        //int productId = intent.getIntExtra(ProductListByCategoryActivity.PRODUCT_ID, -1);
-        if (productId == -1){
-            productId = 99;
-        }
+        productId = intent.getIntExtra("PRODUCT_ID", -1);
 
         // Call woo commerce service to get product details
         WooCommerceService service = ServiceGenerator.createService(WooCommerceService.class);
@@ -152,21 +144,18 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private void displayProduct(Product product) {
 
+        List<Fragment> fragments = new ArrayList<>();
+        for (Image image: product.getImages()) {
+            Fragment f = PageFragment.getInstance(image.getSrc(), -1, "-1");
+            fragments.add(f);
+        }
         // init product image viewpager adapter and attach
-        adapterProductImage = new ViewPagerAdapter(this, getSupportFragmentManager(), product.getImages());
+        adapterProductImage = new ViewPagerAdapter(getSupportFragmentManager(), fragments);
         viewPagerProductImages.setAdapter(adapterProductImage);
 
-        //Bind the title indicator to the adapter
-        TitlePageIndicator indicator = (TitlePageIndicator)findViewById(R.id.indicator_product_images);
-        indicator.setViewPager(viewPagerProductImages);
-
-        // init related product image viewpager adapter and attach
-        adapterRelatedProductImage = new ViewPagerAdapter(this, getSupportFragmentManager(), new ArrayList<Image>(), product.getRelatedIds());
+                // init related product image viewpager adapter and attach
+        adapterRelatedProductImage = new ViewPagerAdapter(getSupportFragmentManager(), new ArrayList<Fragment>());
         viewPagerRelatedProductImages.setAdapter(adapterRelatedProductImage);
-
-        //Bind the title indicator to the adapter
-        TitlePageIndicator titleIndicator = (TitlePageIndicator)findViewById(R.id.indicator_related_products);
-        titleIndicator.setViewPager(viewPagerRelatedProductImages);
 
         WooCommerceService service = ServiceGenerator.createService(WooCommerceService.class);
 
@@ -179,7 +168,10 @@ public class ProductDetailActivity extends AppCompatActivity {
                 public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
                     ProductResponse productResponse = response.body();
                     Product product = productResponse.getProduct();
-                    adapterRelatedProductImage.updatePageViewer(product.getImages().get(0), id);
+                    Fragment f = PageFragment.getInstance(product.getImages().get(0).getSrc(),
+                            product.getId(),
+                            product.getTitle());
+                    adapterRelatedProductImage.updatePageViewer(f);
                 }
 
                 @Override

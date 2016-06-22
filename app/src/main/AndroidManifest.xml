@@ -16,17 +16,13 @@
         <activity
             android:name=".splash.SplashActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-<<<<<<< HEAD
-=======
-
->>>>>>> master
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".explore.ExploreActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".MainActivity">
@@ -51,17 +47,13 @@
                 android:resource="@xml/searchable" />
         </activity>
 
-<<<<<<< HEAD
         <!--Product Detail Activity-->
         <activity
             android:name=".product_detail_view.ProductDetailActivity" >
-
         </activity>
 
-=======
         <!-- Login Activity -->
         <activity android:name=".login.LoginActivity">
-
         </activity>
 
         <!-- Auth0 Lock -->
@@ -107,7 +99,6 @@
         <activity android:name=".login.SignUpActivity">
 
         </activity>
->>>>>>> master
     </application>
 
 </manifest>
