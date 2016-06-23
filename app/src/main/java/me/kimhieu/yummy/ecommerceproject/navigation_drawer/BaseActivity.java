@@ -20,6 +20,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import me.kimhieu.yummy.ecommerceproject.R;
 import me.kimhieu.yummy.ecommerceproject.explore.ExploreActivity;
 import me.kimhieu.yummy.ecommerceproject.onsale.OnSaleActivity;
+import me.kimhieu.yummy.ecommerceproject.settings.SettingsActivity;
 import me.kimhieu.yummy.ecommerceproject.utils.YummySession;
 
 /**
@@ -109,6 +110,11 @@ public class BaseActivity extends AppCompatActivity {
                 case R.id.cart:
                     return true;
                 case R.id.settings:
+                    if (YummySession.selectedItemPosition != 3) {
+                        BaseActivity.this.finish();
+                        startActivity(new Intent(BaseActivity.this, SettingsActivity.class));
+                        YummySession.selectedItemPosition = 3;
+                    }
                     return true;
                 case R.id.logout:
                     BaseActivity.this.finish();

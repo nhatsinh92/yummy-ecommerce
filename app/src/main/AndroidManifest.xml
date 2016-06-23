@@ -18,22 +18,15 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".explore.ExploreActivity">
-
-        </activity>
-
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".explore.ExploreActivity"></activity>
+        <activity android:name=".MainActivity"></activity>
 
         <!-- Navigation Drawer Activity -->
-        <activity android:name=".navigation_drawer.BaseActivity">
-
-        </activity>
+        <activity android:name=".navigation_drawer.BaseActivity"></activity>
 
         <!-- On Sale Activity -->
         <activity
@@ -48,14 +41,11 @@
                 android:resource="@xml/searchable" />
         </activity>
 
-        <!--Product Detail Activity-->
-        <activity
-            android:name=".product_detail_view.ProductDetailActivity" >
-        </activity>
+        <!-- Product Detail Activity -->
+        <activity android:name=".product_detail_view.ProductDetailActivity"></activity>
 
         <!-- Login Activity -->
-        <activity android:name=".login.LoginActivity">
-        </activity>
+        <activity android:name=".login.LoginActivity"></activity>
 
         <!-- Auth0 Lock -->
         <activity
@@ -97,9 +87,8 @@
             android:value="@string/facebook_app_id" />
         <!-- Facebook Native End -->
 
-        <activity android:name=".login.SignUpActivity">
-
-        </activity>
+        <activity android:name=".login.SignUpActivity"></activity>
+        <activity android:name=".settings.SettingsActivity"></activity>
     </application>
 
 </manifest>
