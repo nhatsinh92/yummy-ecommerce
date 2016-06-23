@@ -13,6 +13,7 @@ public class YummySession {
     public static UserProfile userProfile;
     public static int selectedItemPosition = -1;
     public static final String PRODUCT_ID = "me.kimhieu.yummy.ecommerceproject.utils.PRODUCT_ID";
-
-
+    public static int notificationId = 000;
+    public static boolean pushNotification = false;
+    public static boolean emailNotification = false;
 }
