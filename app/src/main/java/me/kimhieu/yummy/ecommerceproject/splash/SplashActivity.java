@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
-import me.kimhieu.yummy.ecommerceproject.MainActivity;
 import me.kimhieu.yummy.ecommerceproject.R;
+import me.kimhieu.yummy.ecommerceproject.onsale.OnSaleActivity;
 import me.kimhieu.yummy.ecommerceproject.login.LoginActivity;
 
 

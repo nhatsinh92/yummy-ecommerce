@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar_in_product_detail"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="?attr/colorPrimary"
+    android:elevation="4dp"
+    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <ScrollView android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/relative_layout_product_image"
+                android:layout_width="match_parent"
+                android:layout_height="332dp">
+
+                <android.support.v4.view.ViewPager
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/view_pager_product_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true">
+                </android.support.v4.view.ViewPager>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/circle_image_view_category_in_product_detail"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="12.5dp"
+                    android:layout_marginBottom="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/circle_image_view_category_in_product_detail"
+                    android:id="@+id/text_view_category_name_in_product_detail"
+                    android:text="Category Name"
+                    android:layout_marginBottom="25dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="17sp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/relative_layout_product_image"
+                android:layout_marginBottom="-22dp">
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fab_add_to_cart"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="5dp"
+                    app:backgroundTint="#41b3e8"
+                    android:src="@drawable/ic_plus"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/relative_layout_product_image">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text_view_product_name_in_product_detail"
+                    android:textSize="23sp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="17dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text_view_price_in_product_detail"
+                    android:textSize="23sp"
+                    android:textColor="#ff5e3a"
+                    android:layout_marginTop="12.5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="17dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="58.5dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/image_view_like"
+                        android:paddingLeft="40dp"
+                        android:paddingRight="40dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:background="@drawable/border"
+                        android:src="@drawable/ic_like"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/image_view_comment"
+                        android:paddingLeft="40dp"
+                        android:paddingRight="40dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:background="@drawable/border"
+                        android:src="@drawable/ic_comment"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/image_view_more"
+                        android:paddingLeft="40dp"
+                        android:paddingRight="40dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:background="@drawable/border"
+                        android:src="@drawable/ic_more"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginRight="17dp"
+                    android:id="@+id/text_view_description_in_product_detail"
+                    android:layout_marginTop="26dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Related Products:"
+                    android:textSize="20dp"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:fontFamily="Arial"/>
+
+                <!-- Related product products group -->
+                <RelativeLayout
+                    android:id="@+id/relative_layout_related_product_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="332dp">
+
+                    <android.support.v4.view.ViewPager
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/view_pager_related_products"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true">
+                    </android.support.v4.view.ViewPager>
+
+
+                </RelativeLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</LinearLayout>

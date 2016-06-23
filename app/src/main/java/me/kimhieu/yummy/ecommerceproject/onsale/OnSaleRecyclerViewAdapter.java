@@ -1,6 +1,7 @@
 package me.kimhieu.yummy.ecommerceproject.onsale;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,11 @@ import java.util.List;
 import me.kimhieu.yummy.ecommerceproject.R;
 import me.kimhieu.yummy.ecommerceproject.model.Product;
 import me.kimhieu.yummy.ecommerceproject.navigation_drawer.BaseActivity;
+import me.kimhieu.yummy.ecommerceproject.product_detail_view.ProductDetailActivity;
 import me.kimhieu.yummy.ecommerceproject.utils.YummySession;
 
 public class OnSaleRecyclerViewAdapter extends RecyclerView.Adapter {
+
 
     private List<Product> dataSet;
     private Context context;
@@ -95,9 +98,9 @@ public class OnSaleRecyclerViewAdapter extends RecyclerView.Adapter {
 
         @Override
         public void onClick(View v) {
-//            Intent intent = new Intent(context, ProductDetailActivity.class);
-//            intent.putExtra("PRODUCT_ID_HERE", dataSet.get(position).getId());
-//            context.startActivity(intent);
+            Intent intent = new Intent(context, ProductDetailActivity.class);
+            intent.putExtra(YummySession.PRODUCT_ID, dataSet.get(position).getId());
+            context.startActivity(intent);
         }
     }
 

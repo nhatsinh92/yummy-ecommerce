@@ -12,5 +12,7 @@ public class YummySession {
     public static List<Product> cart = new ArrayList<>();
     public static UserProfile userProfile;
     public static int selectedItemPosition = -1;
+    public static final String PRODUCT_ID = "me.kimhieu.yummy.ecommerceproject.utils.PRODUCT_ID";
+
 
 }
