@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.kimhieu.yummy.ecommerceproject.R;
+import me.kimhieu.yummy.ecommerceproject.checkout.CheckoutActivity;
 import me.kimhieu.yummy.ecommerceproject.explore.ExploreActivity;
 import me.kimhieu.yummy.ecommerceproject.onsale.OnSaleActivity;
 import me.kimhieu.yummy.ecommerceproject.settings.SettingsActivity;
@@ -108,6 +109,11 @@ public class BaseActivity extends AppCompatActivity {
                     }
                     return true;
                 case R.id.cart:
+                    if (YummySession.selectedItemPosition != 2) {
+                        BaseActivity.this.finish();
+                        startActivity(new Intent(BaseActivity.this, CheckoutActivity.class));
+                        YummySession.selectedItemPosition = 2;
+                    }
                     return true;
                 case R.id.settings:
                     if (YummySession.selectedItemPosition != 3) {

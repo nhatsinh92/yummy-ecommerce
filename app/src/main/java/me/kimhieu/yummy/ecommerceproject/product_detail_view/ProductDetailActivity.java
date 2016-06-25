@@ -33,6 +33,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.kimhieu.yummy.ecommerceproject.R;
+import me.kimhieu.yummy.ecommerceproject.checkout.CheckoutActivity;
 import me.kimhieu.yummy.ecommerceproject.model.Image;
 import me.kimhieu.yummy.ecommerceproject.model.Product;
 import me.kimhieu.yummy.ecommerceproject.model.ProductResponse;
@@ -154,6 +155,11 @@ public class ProductDetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
+                break;
+            case R.id.widget_cart:
+                this.finish();
+                startActivity(new Intent(this, CheckoutActivity.class));
+                YummySession.selectedItemPosition = 2;
                 break;
         }
         return true;
