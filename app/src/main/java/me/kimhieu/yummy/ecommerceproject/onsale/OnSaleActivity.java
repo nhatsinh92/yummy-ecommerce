@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.kimhieu.yummy.ecommerceproject.R;
+import me.kimhieu.yummy.ecommerceproject.checkout.CheckoutActivity;
 import me.kimhieu.yummy.ecommerceproject.model.Product;
 import me.kimhieu.yummy.ecommerceproject.model.ProductsResponse;
 import me.kimhieu.yummy.ecommerceproject.navigation_drawer.BaseActivity;
@@ -60,6 +61,14 @@ public class OnSaleActivity extends BaseActivity {
         displayOnSaleProduct();
 
         fabCart = (FloatingActionButton) findViewById(R.id.fab_cart);
+        fabCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OnSaleActivity.this.finish();
+                startActivity(new Intent(OnSaleActivity.this, CheckoutActivity.class));
+                YummySession.selectedItemPosition = 2;
+            }
+        });
         textViewCartQuantity = (TextView) findViewById(R.id.text_view_cart_quantity);
 
         if (YummySession.cart.size() == 0) {
