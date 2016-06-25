@@ -15,7 +15,8 @@
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <ScrollView android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/scroll_view_product_detail">
 
         <RelativeLayout
             android:layout_width="match_parent"
