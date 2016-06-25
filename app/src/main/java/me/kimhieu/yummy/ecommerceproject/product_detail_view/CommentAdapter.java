@@ -24,7 +24,6 @@ public class CommentAdapter extends RecyclerView.Adapter {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-
         public TextView tv_user;
         public TextView tv_comment;
         public RatingBar rb_product_rating;

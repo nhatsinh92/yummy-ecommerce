@@ -43,7 +43,12 @@ public class PageFragment extends android.support.v4.app.Fragment{
 
         ImageView imageView = (ImageView) view.findViewById(R.id.image_in_view_pager);
         TextView textViewRelatedProductName = (TextView) view.findViewById(R.id.text_view_related_product_name);
-        Glide.with(view.getContext()).load(imageResource).into(imageView);
+        Glide.with(view.getContext())
+                .load(imageResource)
+                .placeholder(R.drawable.place_holder)
+                .error(R.mipmap.error)
+                .dontAnimate()
+                .into(imageView);
         if (this.productName.equals("-1")) {
             textViewRelatedProductName.setVisibility(View.INVISIBLE);
         }else {
