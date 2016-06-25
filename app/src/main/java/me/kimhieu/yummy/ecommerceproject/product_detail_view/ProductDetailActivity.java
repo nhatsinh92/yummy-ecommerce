@@ -3,6 +3,7 @@ package me.kimhieu.yummy.ecommerceproject.product_detail_view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +40,7 @@ import me.kimhieu.yummy.ecommerceproject.model.ProductReview;
 import me.kimhieu.yummy.ecommerceproject.model.ProductReviewsResponse;
 import me.kimhieu.yummy.ecommerceproject.service.ServiceGenerator;
 import me.kimhieu.yummy.ecommerceproject.service.WooCommerceService;
+import me.kimhieu.yummy.ecommerceproject.utils.ExploreLibrary;
 import me.kimhieu.yummy.ecommerceproject.utils.YummySession;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,20 +58,20 @@ public class ProductDetailActivity extends AppCompatActivity {
     private CircleImageView civ_category_image_in_product_detail;
     private TextView textViewCategoryName;
     private ImageView imageViewComment;
-    private TextView textViewRelatedProductName;
     private PopupWindow popWindow;
     private FloatingActionButton fabAddToCart;
+    private ScrollView scrollView;
 
     int mDeviceHeight;
     private String productCategory;
     private int productId = -1;
+    private boolean reviewExisted;
 
     // declare recycler view
     RecyclerView recyclerView;
     RecyclerView.Adapter recyclerViewAdapter;
     RecyclerView.LayoutManager recyclerViewLayoutManager;
     Toolbar myToolbar;
-    Toolbar reviewToolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,12 +90,13 @@ public class ProductDetailActivity extends AppCompatActivity {
         viewPagerProductImages = (ViewPager) findViewById(R.id.view_pager_product_detail);
         viewPagerRelatedProductImages = (ViewPager) findViewById(R.id.view_pager_related_products);
         civ_category_image_in_product_detail = (CircleImageView) findViewById(R.id.circle_image_view_category_in_product_detail);
-        textViewCategoryName = (TextView) findViewById(R.id.text_view_category_name_in_product_detail) ;
+        textViewCategoryName = (TextView) findViewById(R.id.text_view_category_name_in_product_detail);
         textViewProductName = (TextView) findViewById(R.id.text_view_product_name_in_product_detail);
         textViewPrice = (TextView) findViewById(R.id.text_view_price_in_product_detail);
         imageViewComment = (ImageView) findViewById(R.id.image_view_comment);
         textViewDescription = (TextView) findViewById(R.id.text_view_description_in_product_detail);
         fabAddToCart = (FloatingActionButton) findViewById(R.id.fab_add_to_cart);
+        scrollView = (ScrollView) findViewById(R.id.scroll_view_product_detail);
 
         Intent intent = getIntent();
         productId = intent.getIntExtra(YummySession.PRODUCT_ID, -1);
@@ -127,19 +131,19 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         });
 
-        imageViewComment.setOnClickListener(new ImageView.OnClickListener(){
+        imageViewComment.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View view) {
+                displayProductComment();
                 View v = new View(ProductDetailActivity.this);
                 v.findViewById(R.id.relative_layout_popup1);
-                displayProductComment();
                 onShowPopup(v);
             }
         });
     }
 
     @Override
-    public boolean onCreateOptionsMenu (Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.product_detail_action_bar_cart_button, menu);
 
         return super.onCreateOptionsMenu(menu);
@@ -158,7 +162,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void displayProduct(Product product) {
 
         List<Fragment> fragments = new ArrayList<>();
-        for (Image image: product.getImages()) {
+        for (Image image : product.getImages()) {
             Fragment f = PageFragment.getInstance(image.getSrc(), -1, "-1");
             fragments.add(f);
         }
@@ -166,15 +170,15 @@ public class ProductDetailActivity extends AppCompatActivity {
         adapterProductImage = new ViewPagerAdapter(getSupportFragmentManager(), fragments);
         viewPagerProductImages.setAdapter(adapterProductImage);
 
-                // init related product image viewpager adapter and attach
+        // init related product image viewpager adapter and attach
         adapterRelatedProductImage = new ViewPagerAdapter(getSupportFragmentManager(), new ArrayList<Fragment>());
         viewPagerRelatedProductImages.setAdapter(adapterRelatedProductImage);
 
         WooCommerceService service = ServiceGenerator.createService(WooCommerceService.class);
 
-        // Get related product images
-        List<Integer> relatedProductIds =  product.getRelatedIds();
-        for (final Integer id:relatedProductIds) {
+        // Get related product info
+        List<Integer> relatedProductIds = product.getRelatedIds();
+        for (final Integer id : relatedProductIds) {
             Call<ProductResponse> productsResponseCall = service.getProductById(id);
             productsResponseCall.enqueue(new Callback<ProductResponse>() {
                 @Override
@@ -198,17 +202,19 @@ public class ProductDetailActivity extends AppCompatActivity {
         Glide.with(this.getApplicationContext())
                 //.load(cate.getImage())
                 .load(product.getImages().get(0).getSrc())
-                .centerCrop()
+                .placeholder(R.drawable.place_holder)
+                .error(R.mipmap.error)
+                .dontAnimate()
                 .into((civ_category_image_in_product_detail));
 
         textViewCategoryName.setText(product.getCategories().get(0));
         textViewProductName.setText(product.getTitle() + " | " + product.getCategories().get(0));
 
         textViewPrice.setText("$" + product.getPrice());
-        textViewDescription.setText(product.getDescription());
+        textViewDescription.setText(ExploreLibrary.removeHtmlTag(product.getDescription()));
     }
 
-    private void displayProductComment(){
+    private void displayProductComment() {
 
         // Call woo commerce service to get product reviews by id
         WooCommerceService service = ServiceGenerator.createService(WooCommerceService.class);
@@ -229,10 +235,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
     }
 
-    public void reloadData (int id) {
+    public void reloadData(int id) {
         productId = id;
 
-        // Call woo commerce service to get product details
+        // Call woo commerce service to get (related) product details
         WooCommerceService service = ServiceGenerator.createService(WooCommerceService.class);
         Call<ProductResponse> productsResponseCall = service.getProductById(id);
         productsResponseCall.enqueue(new Callback<ProductResponse>() {
@@ -243,6 +249,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                     Product product = productResponse.getProduct();
                     productCategory = product.getCategories().get(0);
                     displayProduct(product);
+                    scrollView.scrollTo(0, 0);
                 }
             }
 
@@ -254,13 +261,11 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
     }
 
-    // call this method when required to show popup
-    public void onShowPopup(View v){
-
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public void onShowPopup(View v) {
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // inflate the custom popup layout
-        final View inflatedView = layoutInflater.inflate(R.layout.popup_product_detail_comment, null,false);
+        final View inflatedView = layoutInflater.inflate(R.layout.popup_product_detail_comment, null, false);
 
         // find the ListView in the popup layout
         recyclerView = (RecyclerView) inflatedView.findViewById(R.id.recycler_view_comment);
@@ -274,13 +279,17 @@ public class ProductDetailActivity extends AppCompatActivity {
         mDeviceHeight = size.y;
 
         // set height depends on the device size
-        popWindow = new PopupWindow(inflatedView, size.x - 50,mDeviceHeight/2, true );
+        popWindow = new PopupWindow(inflatedView, size.x - 50, mDeviceHeight / 2, true);
         // make it focusable to show the keyboard to enter in `EditText`
         popWindow.setFocusable(true);
+
+        // Set background to fix a bug which causes popup cannot be closed
+        Drawable drawable = android.support.v4.content.ContextCompat.getDrawable(this, R.drawable.border);
+        popWindow.setBackgroundDrawable(drawable);
         // make it outside touchable to dismiss the popup window
         popWindow.setOutsideTouchable(true);
 
         // show the popup at bottom of the screen and set some margin at TOP ie,
-        popWindow.showAtLocation(v, Gravity.TOP, 0,500);
+        popWindow.showAtLocation(v, Gravity.TOP, 0, 500);
     }
 }
