@@ -8,8 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,36 @@ public class CheckoutActivity extends BaseActivity {
     TextView textViewPurchase;
     ImageView imageViewAddPaymentMethod;
     LinearLayout paymentMethodsHolder;
-    List<View> paymentMethods = new ArrayList<>();
+    List<PaymentMethod> paymentMethodList = new ArrayList<>();
+
+    private class PaymentMethod {
+        View view;
+        boolean isChecked;
+
+        public PaymentMethod(View view, boolean isChecked) {
+            this.view = view;
+            this.isChecked = isChecked;
+            setMethod(this.isChecked);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (PaymentMethod method : paymentMethodList) {
+                        method.setMethod(false);
+                    }
+                    PaymentMethod.this.setMethod(true);
+                }
+            });
+        }
+
+        public void setMethod(boolean isChecked) {
+            ImageView checkedIcon = (ImageView) view.findViewById(R.id.payment_method_checked);
+            if (isChecked) {
+                checkedIcon.setVisibility(View.VISIBLE);
+            }else {
+                checkedIcon.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +82,23 @@ public class CheckoutActivity extends BaseActivity {
         textViewPurchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (YummySession.cart.isEmpty()) {
+                    Toast.makeText(CheckoutActivity.this,
+                            "Your cart is empty. Please add at least one product to your cart",
+                            Toast.LENGTH_SHORT).show();
+                }else {
+                    if (paymentMethodList.isEmpty()) {
+                        Toast.makeText(CheckoutActivity.this,
+                                "No payment method found. Please add at least one payment method",
+                                Toast.LENGTH_SHORT).show();
+                    }else {
+                        YummySession.cart = new ArrayList<>(); // reset cart
+                        ((CartRecyclerViewAdapter)adapter).setProductList(new ArrayList<Product>(YummySession.cart)); // update recycler view
+                        Toast.makeText(CheckoutActivity.this, "Your order is confirmed", Toast.LENGTH_SHORT).show();
+                        textViewTotalPrice.setText("$" + CalculateTotalPrice());
+                        // TODO: send order detail to customer email
+                    }
+                }
             }
         });
 
@@ -62,20 +106,14 @@ public class CheckoutActivity extends BaseActivity {
         imageViewAddPaymentMethod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View method = LayoutInflater.from(CheckoutActivity.this).inflate(R.layout.payment_method_item, null);
-                paymentMethods.add(method);
-                paymentMethodsHolder.addView(method);
-                method.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        for (View view : paymentMethods) {
-                            ImageView unChecked = (ImageView) view.findViewById(R.id.payment_method_checked);
-                            unChecked.setVisibility(View.INVISIBLE);
-                        }
-                        ImageView checked = (ImageView) v.findViewById(R.id.payment_method_checked);
-                        checked.setVisibility(View.VISIBLE);
-                    }
-                });
+                View methodView = LayoutInflater.from(CheckoutActivity.this).inflate(R.layout.payment_method_item, null);
+                if (paymentMethodList.isEmpty()) {
+                    paymentMethodList.add(new PaymentMethod(methodView, true));
+                }else {
+                    paymentMethodList.add(new PaymentMethod(methodView, false));
+                }
+                // Add payment method to screen
+                paymentMethodsHolder.addView(methodView);
             }
         });
 
