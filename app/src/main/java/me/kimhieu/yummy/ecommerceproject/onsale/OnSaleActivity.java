@@ -85,15 +85,13 @@ public class OnSaleActivity extends BaseActivity {
     }
 
     private void searchProductByNameAndDisplay(final String keyWord) {
-        Call<ProductsResponse> productsResponseCall = service.getListProduct();
+        Call<ProductsResponse> productsResponseCall = service.getListProductByName(keyWord);
         productsResponseCall.enqueue(new Callback<ProductsResponse>() {
             @Override
             public void onResponse(Call<ProductsResponse> call, Response<ProductsResponse> response) {
                 List<Product> productList = new ArrayList<>();
                 for (Product product: response.body().getProducts()) {
-                    if (product.getTitle().toLowerCase().contains(keyWord.toLowerCase())
-                            && product.getOnSale()
-                            ) {
+                    if (product.getOnSale()) {
                         productList.add(product);
                     }
                 }
