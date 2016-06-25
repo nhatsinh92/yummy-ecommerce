@@ -36,5 +36,10 @@ public interface WooCommerceService {
 
     @POST("customers")
     Call<CustomerResponse> addCustomer(@Body CustomerResponse customerResponse);
+
+    @GET("products?filter[limit]=-1")
+    Call<ProductsResponse> getListProductByName(
+            @Query("filter[q]") String productName
+    );
 }
 
